@@ -1,8 +1,9 @@
 export default {
-  'menu.home': 'Home',
+  'menu.home': 'Dashboard',
   'menu.login': 'Login',
   'menu.register': 'Register',
   'menu.register.result': 'Register Result',
+  'menu.shipments': 'Shipments',
   'menu.participants': 'Participants',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': 'Analysis',

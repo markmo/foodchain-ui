@@ -60,7 +60,6 @@
     "enquire-js": "^0.2.1",
     "express": "^4.16.4",
     "gg-editor": "^2.0.2",
-    "google-map-react": "^1.1.4",
     "leaflet": "^1.4.0",
     "lodash": "^4.17.11",
     "lodash-decorators": "^6.0.1",

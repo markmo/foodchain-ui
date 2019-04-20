@@ -1,7 +1,7 @@
-import { queryParticipant, removeParticipant, addParticipant } from '@/services/api';
+import { queryShipment, removeShipment, addShipment } from '@/services/api';
 
 export default {
-  namespace: 'participant',
+  namespace: 'shipment',
 
   state: {
     data: {
@@ -12,14 +12,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryParticipant, payload);
+      const response = yield call(queryShipment, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addParticipant, payload);
+      const response = yield call(addShipment, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -27,7 +27,7 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeParticipant, payload);
+      const response = yield call(removeShipment, payload);
       yield put({
         type: 'save',
         payload: response,

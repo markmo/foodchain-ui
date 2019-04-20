@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { Card, Form, Input, Button, Modal, message, Radio } from 'antd';
+import { Card, Form, Input, Button, Modal, message, Radio, Select } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from './ParticipantsList.less';
+import styles from './ShipmentsList.less';
 
 const FormItem = Form.Item;
 const getValue = obj =>
@@ -15,6 +15,7 @@ const getValue = obj =>
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { Option } = Select;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -25,53 +26,48 @@ const CreateForm = Form.create()(props => {
   return (
     <Modal
       destroyOnClose
-      title="Add Participant"
+      title="Add Shipment"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Type">
         {form.getFieldDecorator('type', {
-          initialValue: '1',
+          initialValue: 'BANANAS',
+        })(
+          <Select>
+            <Option value="BANANAS">Bananas</Option>
+            <Option value="APPLES">Apples</Option>
+            <Option value="PEARS">Pears</Option>
+            <Option value="PEACHES">Peaches</Option>
+            <Option value="COFFEE">Coffee</Option>
+          </Select>
+        )}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="UOM">
+        {form.getFieldDecorator('unitOfMeasure', {
+          initialValue: 'ITEMS',
         })(
           <Radio.Group>
-            <Radio value="1">Grower</Radio>
-            <Radio value="2">Supplier</Radio>
-            <Radio value="3">Distributor</Radio>
-            <Radio value="4">Retailer</Radio>
-            <Radio value="5">Shipper</Radio>
+            <Radio value="ITEMS">Items</Radio>
+            <Radio value="KGS">KGS</Radio>
           </Radio.Group>
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Name">
-        <Input placeholder="Enter name" />
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
-        <Input placeholder="Enter email" />
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Street 1">
-        <Input placeholder="Street address 1" />
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Street 2">
-        <Input placeholder="Street address 2" />
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="City">
-        <Input placeholder="City" />
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Postcode">
-        <Input placeholder="Postcode" />
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Unit Count">
+        <Input placeholder="Enter unit count" />
       </FormItem>
     </Modal>
   );
 });
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ participant, loading }) => ({
-  participant,
-  loading: loading.models.participant,
+@connect(({ shipment, loading }) => ({
+  shipment,
+  loading: loading.models.shipment,
 }))
 @Form.create()
-class ParticipantsList extends PureComponent {
+class ShipmentsList extends PureComponent {
   state = {
     modalVisible: false,
     selectedRows: [],
@@ -80,42 +76,32 @@ class ParticipantsList extends PureComponent {
 
   columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: 'ID',
+      dataIndex: 'shipmentId',
       render: text => <a onClick={() => this.previewItem(text)}>{text}</a>,
     },
     {
       title: 'Type',
       dataIndex: 'type',
-      render: text => {
-        switch (text) {
-          case 1:
-            return 'Grower';
-          case 2:
-            return 'Supplier';
-          case 3:
-            return 'Distributor';
-          case 4:
-            return 'Retailer';
-          default:
-            return 'Unknown';
-        }
-      },
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
+      title: 'Status',
+      dataIndex: 'status',
     },
     {
-      title: 'Account Balance',
-      dataIndex: 'accountBalance',
+      title: 'UOM',
+      dataIndex: 'unitOfMeasure',
+    },
+    {
+      title: 'Count',
+      dataIndex: 'unitCount',
     },
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'participant/fetch',
+      type: 'shipment/fetch',
     });
   }
 
@@ -140,7 +126,7 @@ class ParticipantsList extends PureComponent {
     }
 
     dispatch({
-      type: 'participant/fetch',
+      type: 'shipment/fetch',
       payload: params,
     });
   };
@@ -157,7 +143,7 @@ class ParticipantsList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'participant/remove',
+          type: 'shipment/remove',
           payload: {
             key: selectedRows.map(row => row.key),
           },
@@ -188,7 +174,7 @@ class ParticipantsList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'participant/add',
+      type: 'shipment/add',
       payload: {
         desc: fields.desc,
       },
@@ -198,28 +184,9 @@ class ParticipantsList extends PureComponent {
     this.handleModalVisible();
   };
 
-  handleUpdate = fields => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-    dispatch({
-      type: 'participant/update',
-      payload: {
-        query: formValues,
-        body: {
-          name: fields.name,
-          desc: fields.desc,
-          key: fields.key,
-        },
-      },
-    });
-
-    message.success('Success');
-    this.handleUpdateModalVisible();
-  };
-
   render() {
     const {
-      participant: { data },
+      shipment: { data },
       loading,
     } = this.props;
     const { selectedRows, modalVisible } = this.state;
@@ -229,7 +196,7 @@ class ParticipantsList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
     return (
-      <PageHeaderWrapper title="Participants">
+      <PageHeaderWrapper title="Shipments">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListOperator}>
@@ -258,4 +225,4 @@ class ParticipantsList extends PureComponent {
   }
 }
 
-export default ParticipantsList;
+export default ShipmentsList;

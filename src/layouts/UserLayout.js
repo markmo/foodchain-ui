@@ -7,7 +7,7 @@ import GlobalFooter from '@/components/GlobalFooter';
 import DocumentTitle from 'react-document-title';
 import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
-import logo from '../assets/networkimageanimated.svg';
+import logo from '../assets/networkimage.svg';
 import getPageTitle from '@/utils/getPageTitle';
 
 const links = [

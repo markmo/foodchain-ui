@@ -33,6 +33,30 @@ export async function addParticipant(params) {
   });
 }
 
+export async function queryShipment(params) {
+  return request(`/api/shipment?${stringify(params)}`);
+}
+
+export async function removeShipment(params) {
+  return request('/api/shipment', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addShipment(params) {
+  return request('/api/shipment', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function queryRule(params) {
   return request(`/api/rule?${stringify(params)}`);
 }
