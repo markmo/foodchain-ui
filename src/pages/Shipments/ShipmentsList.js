@@ -132,7 +132,7 @@ class ShipmentsList extends PureComponent {
   };
 
   previewItem = id => {
-    router.push(`/profile/basic/${id}`);
+    router.push(`/shipments/${id}`);
   };
 
   handleMenuClick = e => {

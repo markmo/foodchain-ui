@@ -9,6 +9,10 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
+export async function getParticipant(id) {
+  return request(`/api/participants?id=${id}`);
+}
+
 export async function queryParticipant(params) {
   return request(`/api/participant?${stringify(params)}`);
 }
@@ -31,6 +35,10 @@ export async function addParticipant(params) {
       method: 'post',
     },
   });
+}
+
+export async function getShipment(id) {
+  return request(`/api/shipments?id=${id}`);
 }
 
 export async function queryShipment(params) {

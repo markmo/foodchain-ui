@@ -15,6 +15,20 @@ let tableListDataSource = [
     status: 'IN_TRANSIT_TO_SUPPLIER',
     unitOfMeasure: 'ITEMS',
     unitCount: 50,
+    temperatureReadings: [
+      {
+        dateTime: '2019-03-01 14:10',
+        celsius: 14.5
+      },
+      {
+        dateTime: '2019-03-01 15:10',
+        celsius: 12.6
+      },
+      {
+        dateTime: '2019-03-01 16:10',
+        celsius: 14.2
+      }
+    ]
   },
   {
     shipmentId: 'SHIP003',
@@ -38,6 +52,24 @@ let tableListDataSource = [
     unitCount: 50,
   },
 ];
+
+function getOneShipment(req, res, u) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url; // eslint-disable-line
+  }
+
+  const params = parse(url, true).query;
+
+  let dataSource = tableListDataSource;
+
+  if (params.id) {
+    dataSource = dataSource.filter(data => data.shipmentId.indexOf(params.id) > -1);
+  }
+  const shipment = dataSource[0];
+
+  return res.json({ shipment });
+}
 
 function getShipment(req, res, u) {
   let url = u;
@@ -112,4 +144,5 @@ function postShipment(req, res, u, b) {
 export default {
   'GET /api/shipment': getShipment,
   'POST /api/shipment': postShipment,
+  'GET /api/shipments': getOneShipment,
 };

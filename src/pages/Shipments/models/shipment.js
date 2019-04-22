@@ -1,4 +1,4 @@
-import { queryShipment, removeShipment, addShipment } from '@/services/api';
+import { getShipment, queryShipment, removeShipment, addShipment } from '@/services/api';
 
 export default {
   namespace: 'shipment',
@@ -13,6 +13,13 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryShipment, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *fetchOne({ payload }, { call, put }) {
+      const response = yield call(getShipment, payload);
       yield put({
         type: 'save',
         payload: response,

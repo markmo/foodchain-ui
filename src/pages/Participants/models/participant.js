@@ -1,4 +1,4 @@
-import { queryParticipant, removeParticipant, addParticipant } from '@/services/api';
+import { getParticipant, queryParticipant, removeParticipant, addParticipant } from '@/services/api';
 
 export default {
   namespace: 'participant',
@@ -13,6 +13,13 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryParticipant, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *fetchOne({ payload }, { call, put }) {
+      const response = yield call(getParticipant, payload);
       yield put({
         type: 'save',
         payload: response,

@@ -5,6 +5,8 @@ export default {
   'menu.register.result': 'Register Result',
   'menu.shipments': 'Shipments',
   'menu.participants': 'Participants',
+  'menu.participantDetail': 'Detail',
+  'menu.shipmentDetail': 'Detail',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': 'Analysis',
   'menu.dashboard.monitor': 'Monitor',

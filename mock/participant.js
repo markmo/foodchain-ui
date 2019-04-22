@@ -94,6 +94,24 @@ let tableListDataSource = [
     },
 ];
 
+function getOneParticipant(req, res, u) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url; // eslint-disable-line
+  }
+
+  const params = parse(url, true).query;
+
+  let dataSource = tableListDataSource;
+
+  if (params.id) {
+    dataSource = dataSource.filter(data => data.name.indexOf(params.id) > -1);
+  }
+  const participant = dataSource[0];
+
+  return res.json({ participant });
+}
+
 function getParticipant(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -166,4 +184,5 @@ function postParticipant(req, res, u, b) {
 export default {
   'GET /api/participant': getParticipant,
   'POST /api/participant': postParticipant,
+  'GET /api/participants': getOneParticipant,
 };

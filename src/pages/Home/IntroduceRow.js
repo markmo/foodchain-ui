@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Row, Col, Icon, Tooltip } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import styles from './Home.less';
-import { ChartCard, MiniArea, MiniBar, MiniProgress, Field } from '@/components/Charts';
+import { ChartCard, MiniProgress } from '@/components/Charts';
 import Trend from '@/components/Trend';
 import numeral from 'numeral';
 
@@ -15,7 +15,7 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const IntroduceRow = memo(({ loading, visitData }) => (
+const IntroduceRow = memo(({ loading }) => (
   <Row gutter={24}>
     <Col {...topColResponsiveProps}>
       <ChartCard
@@ -29,7 +29,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           </Tooltip>
         }
         loading={loading}
-        total={() => <div>4.1 days</div>}
+        total={() => <div>4.5 days</div>}
         contentHeight={46}
       >
         <Trend flag="up" style={{ marginRight: 16 }}>
@@ -59,7 +59,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           </Tooltip>
         }
         loading={loading}
-        total={() => <div>4.5 C</div>}
+        total={() => <div>3.9 C</div>}
         contentHeight={46}
       >
         <Trend flag="up" style={{ marginRight: 16 }}>
@@ -89,7 +89,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           </Tooltip>
         }
         loading={loading}
-        total={() => <div style={{ color: 'orange' }}>16%</div>}
+        total={() => <div style={{ color: 'orange' }}>12%</div>}
         contentHeight={46}
       >
         <Trend flag="" style={{ marginRight: 16 }} />
@@ -134,7 +134,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
             <Icon type="info-circle-o" />
           </Tooltip>
         }
-        total={() => <div style={{ color: 'orange' }}>79%</div>}
+        total={() => <div style={{ color: 'orange' }}>67%</div>}
         contentHeight={46}
       >
         <MiniProgress
@@ -161,7 +161,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           </Tooltip>
         }
         loading={loading}
-        total={() => <div>5 days</div>}
+        total={() => <div>4 days</div>}
         contentHeight={46}
       >
         <Trend flag="" style={{ marginRight: 16 }} />

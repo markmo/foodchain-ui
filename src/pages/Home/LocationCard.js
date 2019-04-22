@@ -24,8 +24,8 @@ const map = (
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
     />
-    {positions.map(pos =>
-      <Marker position={pos} />
+    {positions.map((pos, i) =>
+      <Marker key={i} position={pos} />
     )}
   </Map>
 );
